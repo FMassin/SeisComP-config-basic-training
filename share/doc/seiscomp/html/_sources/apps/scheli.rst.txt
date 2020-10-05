@@ -1,0 +1,357 @@
+.. highlight:: rst
+
+.. _scheli:
+
+######
+scheli
+######
+
+**Real-time helicorder view for one stream**
+
+
+Description
+===========
+
+scheli visualizes waveforms from a single station mimicking a drum-recorder plot
+(see :ref:`fig-scheli`).
+
+Features
+========
+
+* scheli plots configurable traces in helicorder style
+* Configurable GUI: trace colors, visualized time spans, number of rows, data filtering,
+  amplitude ranges and much more.
+* Automatic image capture: capture helicorder images at configurable time intervals
+  and a set of channels
+
+.. _fig-scheli:
+
+.. figure:: media/scheli.png
+   :width: 16cm
+   :align: center
+
+   scheli
+
+Examples
+========
+
+.. _scheli-show:
+
+**Simple helicorder window:**
+
+Let :ref:`scheli` show data from the CX station PB01 for the previous 5 hours.
+
+.. code-block:: sh
+
+   scheli --stream=CX.PB01..HHZ --rows 10
+
+.. _scheli-capture:
+
+**Image capture:**
+
+Capture the helicorder plot for 3 stations in intervals of 10 seconds.
+The data is retrieved using seedlink and the plots are stored as PNG images.
+The image files are named according to network, station, stream and location codes
+of the requested stations.
+
+.. code-block:: sh
+
+   scheli capture --heli.streams="CX.PB01..HHZ,CX.PB02..HHZ,CX.PB04..HHZ" --interval=10 -o "/tmp/heli_%N_%S_%L_%C.png" -H localhost -I slink://localhost
+
+Setup
+=====
+
+Colors of traces etc. can be adjusted by setting the *scheme* parameters in
+the global configuration of scheli. For alternating colors between the traces
+set the parameters scheme.colors.records.foreground and
+scheme.colors.records.alternateForeground in scheli.cfg, e.g. as for the example
+in the figure :ref:`fig-scheli`:
+
+.. code-block:: sh
+
+   # The general color of records/traces.
+   scheme.colors.records.foreground = 4286F4
+
+   # A general trace color of the alternate trace (eg scheli).
+   scheme.colors.records.alternateForeground = B72D0E
+
+
+.. _scheli_configuration:
+
+Configuration
+=============
+
+| :file:`etc/defaults/global.cfg`
+| :file:`etc/defaults/scheli.cfg`
+| :file:`etc/global.cfg`
+| :file:`etc/scheli.cfg`
+| :file:`~/.seiscomp/global.cfg`
+| :file:`~/.seiscomp/scheli.cfg`
+
+scheli inherits :ref:`global options<global-configuration>`.
+
+
+
+.. confval:: scripts.postprocessing
+
+   Type: *path*
+
+   Defines the path to a script that is called whenever an image
+   has been captured and written to disc. The only parameter is
+   the path to the generated image.
+
+
+
+Command-line
+============
+
+.. program:: scheli
+
+
+Generic
+-------
+
+.. option:: -h, --help
+
+   show help message.
+
+.. option:: -V, --version
+
+   show version information
+
+.. option:: --config-file arg
+
+   Use alternative configuration file. When this option is used
+   the loading of all stages is disabled. Only the given configuration
+   file is parsed and used. To use another name for the configuration
+   create a symbolic link of the application or copy it, eg scautopick \-> scautopick2.
+
+.. option:: --plugins arg
+
+   Load given plugins.
+
+.. option:: -D, --daemon
+
+   Run as daemon. This means the application will fork itself and
+   doesn't need to be started with \&.
+
+.. option:: --auto-shutdown arg
+
+   Enable\/disable self\-shutdown because a master module shutdown. This only
+   works when messaging is enabled and the master module sends a shutdown
+   message \(enabled with \-\-start\-stop\-msg for the master module\).
+
+.. option:: --shutdown-master-module arg
+
+   Sets the name of the master\-module used for auto\-shutdown. This
+   is the application name of the module actually started. If symlinks
+   are used then it is the name of the symlinked application.
+
+.. option:: --shutdown-master-username arg
+
+   Sets the name of the master\-username of the messaging used for
+   auto\-shutdown. If \"shutdown\-master\-module\" is given as well this
+   parameter is ignored.
+
+
+Verbosity
+---------
+
+.. option:: --verbosity arg
+
+   Verbosity level [0..4]. 0:quiet, 1:error, 2:warning, 3:info, 4:debug
+
+.. option:: -v, --v
+
+   Increase verbosity level \(may be repeated, eg. \-vv\)
+
+.. option:: -q, --quiet
+
+   Quiet mode: no logging output
+
+.. option:: --component arg
+
+   Limits the logging to a certain component. This option can be given more than once.
+
+.. option:: -s, --syslog
+
+   Use syslog logging back end. The output usually goes to \/var\/lib\/messages.
+
+.. option:: -l, --lockfile arg
+
+   Path to lock file.
+
+.. option:: --console arg
+
+   Send log output to stdout.
+
+.. option:: --debug
+
+   Debug mode: \-\-verbosity\=4 \-\-console\=1
+
+.. option:: --log-file arg
+
+   Use alternative log file.
+
+
+Messaging
+---------
+
+.. option:: -u, --user arg
+
+   Overrides configuration parameter :confval:`connection.username`.
+
+.. option:: -H, --host arg
+
+   Overrides configuration parameter :confval:`connection.server`.
+
+.. option:: -t, --timeout arg
+
+   Overrides configuration parameter :confval:`connection.timeout`.
+
+.. option:: -g, --primary-group arg
+
+   Overrides configuration parameter :confval:`connection.primaryGroup`.
+
+.. option:: -S, --subscribe-group arg
+
+   A group to subscribe to. This option can be given more than once.
+
+.. option:: --content-type arg
+
+   Overrides configuration parameter :confval:`connection.contentType`.
+
+.. option:: --start-stop-msg arg
+
+   Sets sending of a start\- and a stop message.
+
+
+Database
+--------
+
+.. option:: --db-driver-list
+
+   List all supported database drivers.
+
+.. option:: -d, --database arg
+
+   The database connection string, format: service:\/\/user:pwd\@host\/database.
+   \"service\" is the name of the database driver which can be
+   queried with \"\-\-db\-driver\-list\".
+
+.. option:: --config-module arg
+
+   The configmodule to use.
+
+.. option:: --inventory-db arg
+
+   Load the inventory from the given database or file, format: [service:\/\/]location
+
+
+Records
+-------
+
+.. option:: --record-driver-list
+
+   List all supported record stream drivers
+
+.. option:: -I, --record-url arg
+
+   The recordstream source URL, format: [service:\/\/]location[#type].
+   \"service\" is the name of the recordstream driver which can be
+   queried with \"\-\-record\-driver\-list\". If \"service\"
+   is not given \"file:\/\/\" is used.
+
+.. option:: --record-file arg
+
+   Specify a file as record source.
+
+.. option:: --record-type arg
+
+   Specify a type for the records being read.
+
+
+Mode
+----
+
+.. option:: --offline
+
+   Do not connect to a messaging server and do not use the database.
+
+.. option:: --end-time arg
+
+   Set the acquisition end time, e.g. '2017\-09\-08 13:30:00', default: 'gmt'
+
+
+Data
+----
+
+.. option:: --stream arg
+
+   The record stream that should be displayed: stream\=net.sta.loc.cha
+
+.. option:: --filter arg
+
+   The filter to apply
+
+.. option:: --gain arg
+
+   Gain applied to the data before plotting. Units: counts\/unit
+
+.. option:: --amp-range-min arg
+
+   Lower bound of amplitude range per row
+
+.. option:: --amp-range-max arg
+
+   Upper bound of amplitude range per row
+
+.. option:: --amp-range arg
+
+   Arround zero bound of amplitude range per row
+
+.. option:: --record-time arg
+
+   Does the last row always contain the last record received
+
+
+Output
+------
+
+.. option:: --desc arg
+
+   Enables\/disables the display of a station description
+
+.. option:: --rows arg
+
+   Configures the number of rows to display
+
+.. option:: --time-span arg
+
+   Configures the time\-span \(in secs\) per row. Unit: seconds.
+
+.. option:: --aa arg
+
+   Sets antialiasing for rendering the traces
+
+.. option:: --xres arg
+
+   Output x resolution when generating images. Unit: dpi.
+
+.. option:: --yres arg
+
+   Output y resolution when generating images. Unit: dpi.
+
+.. option:: --dpi arg
+
+   Output dpi when generating postscript. Unit: dpi.
+
+.. option:: -o arg
+
+   Output filename \(placeholders: %N,%S,%L,%C\)
+
+.. option:: --interval arg
+
+   Snapshot interval \(less than 0 disables timed snapshots\).
+   Unit: seconds.
+

@@ -1,0 +1,242 @@
+.. highlight:: rst
+
+.. _scmaster:
+
+########
+scmaster
+########
+
+**scmaster**
+
+
+Description
+===========
+
+scmaster is the implementation of the :ref:`messaging <concepts_messaging>`
+mediator.
+
+
+
+.. _scmaster_configuration:
+
+Configuration
+=============
+
+| :file:`etc/defaults/global.cfg`
+| :file:`etc/defaults/scmaster.cfg`
+| :file:`etc/global.cfg`
+| :file:`etc/scmaster.cfg`
+| :file:`~/.seiscomp/global.cfg`
+| :file:`~/.seiscomp/scmaster.cfg`
+
+scmaster inherits :ref:`global options<global-configuration>`.
+
+
+
+.. confval:: defaultGroups
+
+   Type: *list:string*
+
+   The default set of message groups for each queue. Only used
+   if a queues group list is unset \(note: empty is not unset\).
+   Default is ``AMPLITUDE, PICK, LOCATION, MAGNITUDE, FOCMECH, EVENT, QC, PUBLICATION, GUI, INVENTORY, CONFIG, LOGGING, SERVICE_REQUEST, SERVICE_PROVIDE, STATUS_GROUP``.
+
+.. confval:: queues
+
+   Type: *list:string*
+
+   The enabled messaging queues. The profile names are the final
+   queue names.
+   Default is ``production, playback``.
+
+.. confval:: interface.bind
+
+   Type: *ipbind*
+
+   
+   Default is ``0.0.0.0:18180``.
+
+.. confval:: interface.acl
+
+   Type: *list:ipmask*
+
+   The IP access control list for clients which are allowed
+   to connect to the interface.
+
+
+.. confval:: interface.socketPortReuse
+
+   Type: *boolean*
+
+   SO_REUSEADDR socket option for the TCP listening socket.
+   Default is ``true``.
+
+.. confval:: interface.ssl.bind
+
+   Type: *ipbind*
+
+   
+   Default is ``0.0.0.0:-1``.
+
+.. confval:: interface.ssl.acl
+
+   Type: *list:ipmask*
+
+   The IP access control list for clients which are allowed
+   to connect to the interface.
+
+
+.. confval:: interface.ssl.socketPortReuse
+
+   Type: *boolean*
+
+   SO_REUSEADDR socket option for the TCP listening socket.
+   Default is ``true``.
+
+.. confval:: interface.ssl.key
+
+   Type: *path*
+
+   
+
+
+.. confval:: interface.ssl.certificate
+
+   Type: *path*
+
+   
+
+
+.. note::
+   **queues.\***
+   *Set the parameters for each messaging queue. The queues are used*
+   *when listed in the :confval:`queues` parameter. Several queues*
+   *can be used in parallel. For queues with without databases leave*
+   *the processor parameters empty.*
+
+
+
+.. note::
+
+   **queues.\$name.\***
+   \$name is a placeholder for the name to be used.
+
+
+.. confval:: queues.\$name.groups
+
+   Type: *list:string*
+
+   Define the list of message groups added to the queue. If unset
+   then the defaultGroups will be used. A queue will always
+   add the default group \"STATUS_GROUP\".
+
+
+.. confval:: queues.\$name.acl
+
+   Type: *list:ipmask*
+
+   The IP access control list for clients which are allowed
+   to join the queue.
+   Default is ``0.0.0.0/0``.
+
+.. confval:: queues.\$name.maximumPayloadSize
+
+   Type: *int*
+
+   Unit: *B*
+
+   The maximum size in bytes of a message to be accepted.
+   Clients which send larger messages will be disconnected.
+   The default is 1MB.
+   Default is ``1048576``.
+
+.. confval:: queues.\$name.plugins
+
+   Type: *list:string*
+
+   List of plugins required by this queue. This is just a
+   convenience parameter to improve configurations
+   readability. The plugins can also be added to the
+   global list of module plugins.
+   
+   Example: dbstore
+
+
+.. confval:: queues.\$name.processors.messages
+
+   Type: *string*
+
+   Interface name. For now, use \"dbstore\" to
+   use a database.
+   
+   Use empty for testing or playbacks without a database.
+
+
+.. note::
+   **queues.\$name.processors.messages.dbstore.\***
+   *Define the database connection parameters.*
+
+
+
+.. confval:: queues.\$name.processors.messages.dbstore.driver
+
+   Type: *string*
+
+   Selected the database driver to use. Database drivers are
+   available through plugins. The default plugin is dbmysql
+   which supports the MYSQL database server. It is activated
+   with the core.plugins parameter.
+
+
+.. confval:: queues.\$name.processors.messages.dbstore.read
+
+   Type: *string*
+
+   Sets the database read connection which is reported to clients
+   that connect to this server. If a remote setup should be
+   implemented, ensure that the hostname is reachable from
+   the remote computer.
+
+
+.. confval:: queues.\$name.processors.messages.dbstore.write
+
+   Type: *string*
+
+   Sets the database write connection which is private to
+   scmaster. A separate write connection enables different
+   permissions on the database level for scmaster and
+   clients.
+
+
+.. confval:: queues.\$name.processors.messages.dbstore.strictVersionCheck
+
+   Type: *boolean*
+
+   If enabled, the plugin will check the database schema version and refuse to start
+   if the version doesn't match the latest version. If disabled and the an object
+   needs to be stored which is incompatible with the database schema this object is
+   lost. Leave this option enabled unless you know exactly what are you doing and what
+   the consequences are.
+   Default is ``true``.
+
+.. confval:: http.filebase
+
+   Type: *path*
+
+   The directory served by the http server at staticPath.
+   Default is ``@DATADIR@/scmaster/http/``.
+
+.. confval:: http.staticPath
+
+   Type: *string*
+
+   The URL path at which html files and assets are available.
+   All files under filebase will be served at this URL path.
+   Default is ``/``.
+
+.. confval:: http.brokerPath
+
+   Type: *string*
+
+   The URL path at which the broker websocket is available.
+   Default is ``/``.

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<seiscomp>
+    <module name="scquery" category="Utilities">
+        <description>
+                Reads database objects and writes them to the command line.
+        </description>
+		<command-line>
+			<group name="Generic">
+				<optionReference>generic#help</optionReference>
+				<optionReference>generic#version</optionReference>
+				<optionReference>generic#config-file</optionReference>
+				<optionReference>generic#plugins</optionReference>
+			</group>
+
+			<group name="Verbosity">
+				<optionReference>verbosity#verbosity</optionReference>
+				<optionReference>verbosity#v</optionReference>
+				<optionReference>verbosity#quiet</optionReference>
+				<optionReference>verbosity#component</optionReference>
+				<optionReference>verbosity#syslog</optionReference>
+				<optionReference>verbosity#lockfile</optionReference>
+				<optionReference>verbosity#console</optionReference>
+				<optionReference>verbosity#debug</optionReference>
+				<optionReference>verbosity#log-file</optionReference>
+			</group>
+
+			<group name="Database">
+				<optionReference>database#db-driver-list</optionReference>
+				<optionReference>database#database</optionReference>
+			</group>
+
+			<group name="Commands">
+				<option flag="" long-flag="showqueries">
+					<description>
+						Show the stored queries in queries.cfg
+					</description>
+				</option>
+			</group>
+		</command-line>
+	</module>
+</seiscomp>

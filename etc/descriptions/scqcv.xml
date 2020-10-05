@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<seiscomp>
+	<module name="scqcv" category="GUI">
+		<description>Quality control view.</description>
+		<configuration>
+			<parameter name="parameter" type="list:string">
+			<description>
+			List of QC paramters to be displayed in the details table. Read the scqc documentation
+			for a list of available QC parameters and the default configuration
+			of scqcv $SEISCOMP_ROOT/etc/defaults/scqcv.cfg for more examples.
+
+			Format: "Parameter name : Config name"
+
+			Example: "delay : delay","spikes count : spike","spikes amplitude : spike"
+			</description>
+			</parameter>
+			<group name="streams">
+				<parameter name="codes" type="list:string">
+					<description>
+						List of channels to display. By default the global
+						binding configuration is used which can be overwritten with this parameter.
+					</description>
+				</parameter>
+				<parameter name="cumulative" type="boolean" default="false">
+					<description>
+						Add new streams automatically to the streams
+						configured in streams.codes when waveform QC parameters are
+						provided for these streams.
+					</description>
+				</parameter>
+			</group>
+			<group name="streamWidget">
+				<description>
+					Control the stream widget which opens when clicking on a stream
+					name in the detailed table.
+				</description>
+				<parameter name="length" type="double" default="600" unit="s">
+					<description>
+						Length of data to be displayed.
+					</description>
+				</parameter>
+			</group>
+			<group name="default">
+				<description>
+					Default configuration for all QC parameters. The configuration
+					can be extended to each QC parameter by placing
+					"default" with the parameter name in scqcv.cfg.
+					Read the scqc documentation for a list of available QC parameters and the default
+					configuration of scqcv $SEISCOMP_ROOT/etc/defaults/scqcv.cfg.
+					for more examples.
+				</description>
+				<parameter name="expire" type="double" default="0" unit="s">
+					<description>
+						Default time in seconds, how long a value is displayed in scqcv
+						if no update is received. Setting to 0 means, show value until
+						updated.
+					</description>
+				</parameter>
+				<parameter name="ranges" type="list:string" default="bad, sane" unit="">
+					<description>
+						The ranges define the background color table fields depending
+						on the field value. Add the default ranges for which different intervals and
+						the color are configured.
+					</description>
+				</parameter>
+				<parameter name="useAbsoluteValue" type="boolean" default="false" unit="">
+					<description>
+						Activate to display absolute values (modulus).
+					</description>
+				</parameter>
+				<parameter name="format" type="string" default="float" unit="">
+					<description>
+						Format of the displayed value.
+
+						Available formats: float, double, percent, timeSpan
+					</description>
+				</parameter>
+				<parameter name="color" type="string" default="grey1" unit="">
+					<description>
+						Default color scheme name.
+					</description>
+				</parameter>
+			</group>
+			<group name="score">
+				<description>
+					Parameters controlling the overal QC score of a station.
+				</description>
+				<group name="default">
+					<parameter name="ranges" type="list:string" unit="">
+						<description>
+							Ranges to be considered for forming the score.
+						</description>
+					</parameter>
+				</group>
+			</group>
+		</configuration>
+	</module>
+</seiscomp>
+
