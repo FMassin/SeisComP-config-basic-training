@@ -1,0 +1,5 @@
+# Activated plugins for category sources
+sources = iris:chain
+
+# Hostname or IP of the Seedlink server.
+sources.iris.address = rtserve.iris.washington.edu
