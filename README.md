@@ -4,7 +4,7 @@ Git versionning system for SeisComP3 configuration files. One branch per system.
 # WARNING
 Do do switch branch if you're not sure.
 
-# How to backup your system locally
+# How to backup your system localy
 
 ```
 scgitinit
