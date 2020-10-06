@@ -10,10 +10,10 @@ Do do switch branch if you're not sure.
 scgitinit
 git -C $SEISCOMP_ROOT commit
 ```
-You will be asked to described your last changes in your default text editor. Do it, save and exit to save your changes.
+You will be asked to describe your last changes in your default text editor. Do it, save and exit to backup your last changes.
 
 # How to add your backup online
-
+Do the follow one time only:
 ```
 cd $SEISCOMP_ROOT
 git checkout -b basic-training-<YOUR NAME>
