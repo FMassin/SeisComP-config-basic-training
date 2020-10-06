@@ -12,7 +12,7 @@ git -C $SEISCOMP_ROOT commit
 ```
 You will be asked to described your last changes in your default text editor. Do it, save and exit to save your changes.
 
-# How to add your system
+# How to add your backup online
 
 ```
 cd $SEISCOMP_ROOT
