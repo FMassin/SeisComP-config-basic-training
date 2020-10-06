@@ -4,12 +4,13 @@ Git versionning system for SeisComP3 configuration files. One branch per system.
 # WARNING
 Do do switch branch if you're not sure.
 
-# How to back your system locally
+# How to backup your system locally
+
 ```
 scgitinit
 git -C $SEISCOMP_ROOT commit
-`Ã```
-You will be prompt to described your last changes, do it, save and exit to save your changes.
+```
+You will be asked to described your last changes in your default text editor. Do it, save and exit to save your changes.
 
 # How to add your system
 
