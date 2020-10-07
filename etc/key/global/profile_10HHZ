@@ -1,0 +1,3 @@
+detecStream = HHZ
+detecLocid = "10"
+amplitudes.enableResponses = true

@@ -1,0 +1,3 @@
+detecStream = $C
+detecLocid = "20"
+amplitudes.enableResponses = true
