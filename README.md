@@ -29,3 +29,29 @@ scgitinit
 git -C $SEISCOMP_ROOT commit 
 git -C $SEISCOMP_ROOT push origin basic-training-<YOUR NAME>
 ```
+
+# How to optimize bindings from mseed file
+
+```bash
+function bindbestcomp () {
+        ls $1 |while read F;
+        do
+                for CHAN in "Z" "BHZ" "HNZ" "SHZ" "EHZ" "HHZ" :
+                do
+                        scart -I $F  -v --test 2>&1|awk '$1~/Z$/{print $1}'|sort -u|grep $CHAN|while IFS='.' read N S L C;
+                        do
+                                K=$SEISCOMP_ROOT/etc/key/station_${N}_$S
+                                P=$SEISCOMP_ROOT/etc/key/global/profile_$L$C;
+                                grep detecStream $P >/dev/null || echo detecStream >> $P;
+                                grep detecLocid $P >/dev/null || echo detecLocid >> $P;
+                                sed -i 's;detecStream.*;detecStream = '$C';' $P;
+                                sed -i 's;detecLocid.*;detecLocid = \"'$L'\";' $P;
+                                grep global $K || echo global >> $K;
+                                sed -i 's;global.*;global:'$L$C';' $K;
+                                echo $K;
+                        done
+                done
+        done
+}
+bindbestcomp "<mseed file names pattern>"
+```
