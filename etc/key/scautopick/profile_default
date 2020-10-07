@@ -1,0 +1,3 @@
+# Overrides the default filter which is "raw". The typical filter grammar can
+# be used.
+picker.AIC.filter = BW(4,1,10)
