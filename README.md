@@ -31,10 +31,10 @@ git -C $SEISCOMP_ROOT push origin basic-training-<YOUR NAME>
 ```
 
 # How to optimize bindings from mseed file
-
+Declare the following fonction, eventually in `~/.profile`: 
 ```bash
-function bindbestcomp () {
-        ls $1 |while read F;
+function mseed2binding () {
+        ls $@ |while read F;
         do
                 for CHAN in "Z" "BHZ" "HNZ" "SHZ" "EHZ" "HHZ" :
                 do
@@ -53,5 +53,9 @@ function bindbestcomp () {
                 done
         done
 }
-bindbestcomp "<mseed file names pattern>"
+```
+Use the function:
+```
+source ~/.profile
+mseed2binding "<mseed file names pattern>"
 ```
