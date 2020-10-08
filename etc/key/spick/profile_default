@@ -1,2 +1,31 @@
+# Overrides the default filter which is "raw". The typical filter grammar can
+# be used.
+picker.AIC.filter = BW(4,1,4.0)
+
+# Overrides the relative data processing start time (relative to the triggering
+# pick). This adds a margin to the actual processing and is useful to
+# initialize the filter (e.g. bandpass). The data is not used at all until
+# signalBegin is reached. The data time window start is the minimum of
+# noiseBegin and signalBegin.
+spicker.L2.noiseBegin = -200
+
+# Overrides the relative start time (relative to the triggering pick) of the
+# begin of the signal processing.
+spicker.L2.signalBegin = 5
+
+# Configures the filter used to compute the L2 and to pick the onset (with AIC)
+# after the detector triggered.
+spicker.L2.filter = BW(4,0.01,1)
+
+# Configures the detector in the filtered L2. This filter is applied on top of
+# the base L2 filter.
+spicker.L2.detecFilter = STALTA(4,200)
+
+# The detector threshold that triggers the AIC picker.
+spicker.L2.threshold = 9
+
+# The AIC time window around the detection used to pick. If 0 AIC is not used.
+spicker.L2.marginAIC = 0
+
 # Defines the filter to be used for picking.
-detecFilter = RMHP(9)>>ITAPER(1)>>(BW(4,1,10)>>STALTA(1,40))*(BW(4,4,20)>>STALTA(0.2,10))
+detecFilter = RMHP(9)>>ITAPER(1)>>BW(4,4,20)>>STALTA(0.2,10)
