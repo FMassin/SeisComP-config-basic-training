@@ -1,3 +1,4 @@
 # Binding references
+global:10BHZ
 scautopick:default
-global:00HHZ
+spick:default

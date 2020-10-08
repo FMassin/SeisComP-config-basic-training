@@ -1,0 +1,2 @@
+# Defines the filter to be used for picking.
+detecFilter = RMHP(9)>>ITAPER(1)>>(BW(4,1,10)>>STALTA(1,40))*(BW(4,4,20)>>STALTA(0.2,10))

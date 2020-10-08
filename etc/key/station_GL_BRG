@@ -1,3 +1,4 @@
 # Binding references
-scautopick:default
 global:90EHZ
+scautopick:default
+spick:default
