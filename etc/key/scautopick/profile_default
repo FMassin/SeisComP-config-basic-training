@@ -1,3 +1,13 @@
+# Overrides the default time (relative to the trigger time) of the begin of the
+# signal window used to pick.
+picker.AIC.signalEnd = 1
+
 # Overrides the default filter which is "raw". The typical filter grammar can
 # be used.
 picker.AIC.filter = BW(4,1,10)
+
+# Defines the filter to be used for picking.
+detecFilter = "RMHP(5)>>ITAPER(3)>>BW(4,1,10)>>STALTA(.5,40)"
+
+# For which value on the filtered waveform is a pick detected.
+trigOn = 5
